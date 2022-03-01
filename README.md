@@ -978,15 +978,17 @@ private fun navigateToLoginScreen() {
      if (pushId.isBlank()) return
 
      compositeDisposable.add(
-             repository
-                     .setPushReaded(
-                             pushId,
-                             SimpleDateFormat(
-                                     UtcZonedTimeUtils.UTC_DATE_FORMAT,
-                                     Locale.getDefault()).format(TrueTimeManager.safeNow()))
-                     .compose(RxUtils.applyIoSchedulersToCompletable())
-                     .subscribe({
-                     }, Timber.tag(TAG)::e)
+         repository
+             .setPushReaded(
+                 pushId,
+                 SimpleDateFormat(
+                     UtcZonedTimeUtils.UTC_DATE_FORMAT,
+                     Locale.getDefault()
+                 ).format(TrueTimeManager.safeNow())
+             )
+             .compose(RxUtils.applyIoSchedulersToCompletable())
+             .subscribe({
+             }, Timber.tag(TAG)::e)
      )
  }
 ```
