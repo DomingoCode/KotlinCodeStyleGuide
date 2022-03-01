@@ -1951,6 +1951,39 @@ when (item) {
 }
 ```
 
+Если хотя бы одна ветвь блока `when` обрамляется фигурными скобками, все остальные ветви также должны обрамляться фигурными скобками.
+Это создает симметрию и одинаковое выравнивание кода внутри веток, что облегчает чтение и восприятие:
+
+```kotlin
+// Wrong.
+
+when (item) {
+    is Item.ARTICLE_ITEM -> articleItemsBuilder.buildShareableArticleItemWithPremiumUserContent(item)      
+    is Item.AD_ITEM -> {
+        adsDelegate.checkPremiumStatusAndDisplayAd(buildAdvertisementItem(item))
+    }
+    is Item.POST_ITEM -> {
+        handlePostItem(item)   
+    }
+}
+```
+```kotlin
+// Correct.
+
+when (item) {
+    is Item.ARTICLE_ITEM -> {
+        articleItemsBuilder.buildShareableArticleItemWithPremiumUserContent(item)    
+    }
+    is Item.AD_ITEM -> {
+        adsDelegate.checkPremiumStatusAndDisplayAd(buildAdvertisementItem(item))
+    }
+    is Item.POST_ITEM -> {
+        handlePostItem(item)
+    }
+}
+```
+ 
+
 Блоки не разделяются пустой строкой.
 
 При проверке принадлежности экземпляра одному из нескольких типов перед каждым типом
