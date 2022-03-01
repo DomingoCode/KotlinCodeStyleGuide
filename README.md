@@ -2,8 +2,7 @@
 
 ## Содержание
 
-1. [Настройка Code Style в Android Studio](#Настройка-code-style-в-android-studio)
-2. [Наименование](#Наименование)
+1. [Наименование](#Наименование)
    - [Пакеты](#Пакеты)
    - [Типы](#Типы)
        - [Классы](#Классы)
@@ -17,11 +16,11 @@
    - [Функции](#Функции)
      - [Функции, возвращающие `Boolean`](#Функции-возвращающие-boolean)
      - [Функции обратного вызова](#Функции-обратного-вызова)
-3. [Объявления на уровне файла](#Объявления-на-уровне-файла)
+2. [Объявления на уровне файла](#Объявления-на-уровне-файла)
    - [Объявление констант](#Объявление-констант)
-4. [Структура класса](#Структура-класса)
+3. [Структура класса](#Структура-класса)
    - [Порядок функций и свойств](#Порядок-функций-и-свойств)
-5. [Форматирование](#Форматирование)
+4. [Форматирование](#Форматирование)
    - [Ограничение длины строки](#Ограничение-длины-строки)
      - [Правила переносов](#Правила-переносов)
    - [Форматирование заголовка класса](#Форматирование-заголовка-класса)
@@ -48,113 +47,20 @@
      - [`where`](#where)
    - [Литералы с плавающей запятой](#Литералы-с-плавающей-запятой)
    - [Пустые блоки](#Пустые-блоки)
-6. [Идиоматика языка](#Идиоматика-языка)
+5. [Идиоматика языка](#Идиоматика-языка)
    - [Замена функции свойством `val`](#Замена-функции-свойством-val) 
    - [Презумпция нулевой ссылки](#Презумпция-нулевой-ссылки)
    - [Выход из функции с помощью оператора `?:`](#Выход-из-функции-с-помощью-оператора-elvis)
    - [Аргументы по умолчанию](#Аргументы-по-умолчанию)
-7. [Документирование](#Документирование)
+6. [Документирование](#Документирование)
     - [KDoc](#kdoc)
     - [Комментарии](#Комментарии)
       - [Форматирование комментариев](#Форматирование-комментариев)
       - [Закомментированный код](#Закомментированный-код)
       - [Комментарии-разделители](#Комментарии-разделители)
       - [Инструкции TODO](#Инструкции-TODO)
-8. [Ссылки на источники](#Ссылки-на-источники)
+7. [Ссылки на источники](#Ссылки-на-источники)
 
-
-# Настройка Code Style в Android Studio
-
-Плагин Kotlin для Android Studio позволяет установить Code Style в IDE:
-
-* Для Mac OS / Linux: **Android Studio** -> **Preferences** -> **Editor** -> **Code style** -> 
-  **Kotlin**.<br/>
-  Для Windows: **File** -> **Settings** -> **Editor** -> **Code style** -> **Kotlin**.
-* Нажать на ссылку **Set from...**, которая находится над панелью вкладок.
-* В выпавшем меню выбрать **Predefined Style** -> **Kotlin style guide**.
-* Нажать **OK**.
-
-Перед тем, как применить данный Code Style к проекту, следует изменить несколько настроек.
-
-### Настройка инспекций
-
-#### Отключение предупреждения о предпочтении Expression Function
-
-По умолчанию Android Studio рекомендует форматировать функцию в стиле *expression function*, если 
-её тело состоит только из `return`-выражения. Однако данная рекомендация отображается даже когда 
-заголовок функции содержит переносы. Поэтому данную инспекцию рекомендуется отключить:
-
-* Для Mac OS / Linux: **Android Studio** -> **Preferences** -> **Editor** -> **Inspections** -> 
-  **Kotlin** -> **Style issues**.<br/>
-  Для Windows: **File** -> **Settings** -> **Editor** -> **Inspections** -> **Kotlin** -> 
-  **Style issues**.
-* Выбрать пункт **Expression body syntax is preferable here**.
-* Установить **Severity** в позицию "**No highlighting, only fix**".
-
->Подробнее о форматировании функций-выражений см. в [специальном разделе](#Функции-выражения).
-
-#### Включение подсказок о форматировании
-
-Android Studio может подсвечивать ошибки форматирования Kt-файлов.
-
-* Для Mac OS / Linux: **Android Studio** -> **Preferences** -> **Editor** -> **Code style** -> 
-  **Kotlin** -> **Style issues**.<br/>
-  Для Windows: **File** -> **Settings** -> **Editor** -> **Inspections** -> **Kotlin** -> 
-  **Style issues**.
-* Поставить чекпоинт **File is not formatted according to project settings**.
-
-### Отключение Continuation Indent перед оператором **`?:`**
-
-По умолчанию перед оператором elvis **`?:`** ставится *Continuation Indent* (обычно 8 пробелов). 
-Необходимо установить для этого оператора одинарный отступ (4 пробела), чтобы при переносе на новую
-строку он выравнивался в одну вертикальную линию с остальными вызовами в цепочке:
-
-```kotlin
-val decisionsList = responseBody
-    .data
-    ?.map(::mapDecision)
-    ?.let { decisions ->
-        DecisionsListModel.Success(
-            decisions = decisions,
-            totalPages = totalPages,
-            currentPage = currentPage
-        )
-    }
-    ?: DecisionsListModel.Error(
-        currentPage = currentPage,
-        errorOrigin = DecisionsResponseError.EMPTY_RESULT
-    )
-    
-val selectedTab = savedInstanceState
-    ?.getInt(STATE_CURRENT_TAB_INDEX, -1)
-    ?.let { initialTabIndex ->
-        tabs.getOrNull(initialTabIndex) ?: defaultTab
-    }
-    ?: defaultTab
-```
-
-Для этого:
-
-* Для Mac OS / Linux: **Android Studio** -> **Preferences** -> **Editor** -> **Code style** -> 
-  **Kotlin** -> **Wrapping and Braces**.<br/>
-  Для Windows: **File** -> **Settings** -> **Editor** -> **Code style** -> **Kotlin** -> 
-  **Wrapping and Braces**.
-* Снять галочку с чекбокса **Use continuation indent** в строке "**Elvis expressions**".
-
-### Применение установленного Code Style к проекту
-
-Исходный код любого проекта можно автоматически отформатировать в соответствии с установленным 
-Code Style.
-
->**Примечание**: процесс переформатирования пройдёт значительно быстрее, если перед его началом 
-удалить папки `build` (**Build** -> **Clean Project**).
-
-Для этого:
-
-* Перейдите в дерево проекта (**View** -> **Project**) и переключите его в переспективу _Project_. 
-* Выделите корневую директорию проекта.
-* Вызовите её контекстное меню и выберите **Reformat Code**. 
-* В появившемся окне снимите галочку **Optimize imports** и нажмите **OK**.
 
 # Наименование
 
@@ -164,13 +70,13 @@ Code Style.
 и постфиксов:
 
 ```kotlin
-ru.vk.app.mypackage  // Ok.
+su.ati.client.notification.feed  // Ok.
 ```
 ```kotlin
-ru.vk.app.myPackage  // Bad: camelCase should be avoided.
+su.ati.client.notificationFeed  // Bad: camelCase should be avoided.
 ```
 ```kotlin
-ru.vk.app.my_package // Bad: _underscores_ should be avoided.
+su.ati.client.notification_feed // Bad: _underscores_ should be avoided.
 ```
 
 Имена пакетов отражают назначение сгруппированных в них классов, формулируются максимально 
@@ -180,9 +86,9 @@ ru.vk.app.my_package // Bad: _underscores_ should be avoided.
 Пример перегруппировки пакетов по признаку общей функциональности:
 
 ```kotlin
-ru.vk.app.dashboardfeed  --->  ru.vk.app.feed.dashboard
-ru.vk.app.myfeed         --->  ru.vk.app.feed.my
-ru.vk.app.subjectfeed    --->  ru.vk.app.feed.subject
+su.ati.client.dashboardfeed  --->  su.ati.client.feed.dashboard
+su.ati.client.myfeed         --->  su.ati.client.feed.my
+su.ati.client.subjectfeed    --->  su.ati.client.feed.subject
 ```
 
 ## Типы
@@ -206,9 +112,8 @@ ru.vk.app.subjectfeed    --->  ru.vk.app.feed.subject
 
 ### Абстрактные классы
 
-Допускается использование префиксов `Abs` или `Abstract` в именах абстрактных классов, 
-например, `AbsRunner`, `AbstractFeedRepository`. При этом префикс `Base` в имени базовых 
-классов остаётся предпочтительным. 
+Допускается использование префиксов `Abs` в именах абстрактных классов, например, `AbsRunner`, `AbsFeedRepository`. 
+При этом префикс `Base` в имени базовых классов остаётся предпочтительным. 
 
 ### Интерфейсы
 
@@ -478,7 +383,8 @@ abstract class BaseFragment : Fragment() {
 выполняющих операции с общим типом-получателем: `ContextExtensions.kt`, `ViewExtensions.kt`, 
 `LiveDataExtensions.kt`, и т. п.
 
-Объединение нескольких публичных типов в одном файле лучше свести к минимуму. В общем случае 
+Объединение нескольких публичных типов в одном файле лучше свести к минимуму. Если несколько публичных типов объединяются в один файл, 
+то имя этого файла должно хорошо отражать то, что содержится в этом файле. В общем случае 
 следует руководствоваться принципом "**Один класс – один файл**".
 
 ### Объявление констант
@@ -515,6 +421,25 @@ abstract class BaseFragment : Fragment() {
 Подобно тому, как статические члены располагаются в самом верху Java-класса, **`companion object`** 
 располагается в самом верху Kotlin-класса, следуя сразу за объявлениями второстепенных 
 конструкторов и внутренних интерфейсов.
+
+```kotlin
+class NotificationDetailsFragment : Fragment(R.layout.fragment_notification_details) {
+
+    companion object {
+        private const val ARGUMENTS = "NotificationDetailsFragment.Arguments"
+
+        fun newInstance(args: NotificationDetailsArgs): Fragment {
+            val bundle = bundleOf(ARGUMENTS to args)
+            return NotificationDetailsFragment().apply { arguments = bundle }
+        }
+    }
+
+    private val viewBinding: FragmentNotificationDetailsBinding by viewBinding { view ->
+        FragmentNotificationDetailsBinding.bind(view)
+    }
+
+    // ...
+```
 
 Объявления внутренних классов располагаются в самому низу. Для их визуального отделения можно
 пропускать перед ними две строки.
@@ -647,7 +572,7 @@ class BookmarksController(arguments: Bundle? = null): BaseController(arguments),
 
 ## Ограничение длины строки
 
-Длина строки исходного кода ограничена **100 символами**. Весь код, а также KDoc и комментарии, 
+Длина строки исходного кода ограничена **120 символами**. Весь код, а также KDoc и комментарии, 
 выходящие за указанный предел, разбиваются на две или более строк.
 
 Исключения:
@@ -766,18 +691,6 @@ class TinyClassName(arg: Int) : SuperClass(arg), SuperInterface, AnotherSuperInt
 }
 ```
 
-Ещё один правильный способ отформатировать заголовок – оставить первый из наследуемых типов 
-на одной строке с конструктором класса, а остальные – выровнять в столбец:
-
-```kotlin
-class ShortClassName(superClassArg: Long) : SuperClassWithWayTooMuchLongerName(superClassArg),
-    SuperInterface
-    AnotherSuperInterface {
-    
-    // Class body.
-}
-```
-
 ### Порядок второстепенных конструкторов
 
 Второстепенные конструкторы объявляются сразу после заголовка класса в "телескопическом" стиле, 
@@ -881,7 +794,7 @@ val week = listOf(day1, day2, day3, day4, day5)
 ### Именованные аргументы
 
 Именованные аргументы рекомендуется использовать при передаче в функцию каких-либо литералов – 
-строковых, числовых, булевых или функциональных, – так как это упрощает чтение и понимание вызова
+строковых, числовых, булевых или функциональных, так как это упрощает чтение и понимание вызова
 функции.
 
 Например, вызов
@@ -1018,6 +931,7 @@ private fun buildShortcut(
         putExtra(RESET_TAB_TO_THE_ROOT, resetTabToTheRoot)
         putExtra(DESTINATION_IDS, destinationIds.toIntArray())
     }
+    
     return ShortcutInfo
         .Builder(context, shortcutId)
         .setIcon(Icon.createWithResource(context, iconResId))
@@ -1540,6 +1454,55 @@ fun getArticles(params: FeedParams): Observable<MutableList<Item>> {
     }
 ```
 
+Предпочтительно выностить весь код из сложных цепочек в отдельные методы, чтобы сами цепочки оставались легко читаемыми:
+
+```kotlin
+// Not very good.
+
+override fun getNotificationById(notificationId: String): Single<Optional<AtiNotification>> {
+    return notificationsService
+        .getNotificationById(notificationId)
+        .compose(networkErrorHandler.handleErrorSingle())
+        .map { responseDto ->
+            val notification = notificationNetworkMapper.mapToDomainModel(responseDto)
+            Optional.of(notification)
+        }
+        .onErrorResumeNext { error ->
+            if (error is NotFoundException) {
+                Single.just(Optional.EMPTY)
+            } else {
+                Single.error(error)
+            }
+        }
+}
+```
+
+```kotlin
+// Better.
+
+override fun getNotificationById(notificationId: String): Single<Optional<AtiNotification>> {
+    return notificationsService
+        .getNotificationById(notificationId)
+        .compose(networkErrorHandler.handleErrorSingle())
+        .map(::toOptional)
+        .onErrorResumeNext(::resumeOnError)
+}
+
+ private fun toOptional(responseDto: AtiNotificationNetworkDto): Optional<AtiNotification> {
+     val notification = notificationNetworkMapper.mapToDomainModel(responseDto)
+     return Optional.of(notification)
+ }
+    
+ private fun resumeOnError(error: Throwable): Single<Optional<AtiNotification>> {
+     return if (error is NotFoundException) {
+         Single.just(Optional.EMPTY)
+     } else {
+         Single.error(error)
+     }
+ }
+```
+
+
 ## Переопределение `set` и `get`
 
 Переопределённый **`get`**'ер неизменяемого свойства рекомендуется располагать на отдельной 
@@ -1721,16 +1684,16 @@ fun provideLoginViewModel(
 class ConfirmAppointmentRequestBody(
 
     @SerializedName("smsCode")
-    val smsCode: Int,
+    val smsCode: Int?,
 
     @SerializedName("recordId")
-    val recordId: Long,
+    val recordId: Long?,
 
     @SerializedName("fullName")
-    val userFullName: String,
+    val userFullName: String?,
 
     @SerializedName("phone")
-    val userPhoneNumber: String,
+    val userPhoneNumber: String?,
 
     @SerializedName("comment")
     val userCommentary: String?
@@ -2416,10 +2379,6 @@ fun attemptToLogoutUser() {
  */
 ```
 
-Как и для обычных комментариев, для KDoc действует стандартное
-[ограничение длины строки](#Ограничение-длины-строки). Документ пишется только по-английски, 
-с соблюдением правил орфографии и грамматики языка.
-
 Все комментарии, располгающиеся над свойствами, функциями и типами, форматируются в виде KDoc:
 
 ```kotlin
@@ -2450,14 +2409,6 @@ private fun getApplicationSuccessRate(age: Int): Float {
 директивы **import** с соответствующими типами.
 
 ## Комментарии
-
-Так же как и KDoc, обычные комментарии пишутся только на английском языке, с полным соблюдением
-правил орфографии и грамматики (особое внимание пунктуации). Лучше всего составлять короткие 
-предложения, используя широкоупотребляемые слова.
-
->**Примечание**: множество полезных советов по составлению комментариев и примеры плохих 
-комментариев можно найти в четвёртой главе книги Роберта С. Мартина "Чистый код" (Robert C. 
-Martin, "Clean Code: A Handbook of Agile Software Craftsmanship").
 
 ### Форматирование комментариев
 
@@ -2499,8 +2450,6 @@ Martin, "Clean Code: A Handbook of Agile Software Craftsmanship").
 * Комментарии **не** дублируют код.
 * Комментарии **не** содержат недостоверных сведений и **не** могут привести к ошибочной 
 интерпретации кода. 
-* Комментарии **не** заставляют разработчика тратить время на их переписывание при внесении 
-любых изменений в код.
 
 ### Закомментированный код
 
@@ -2512,8 +2461,8 @@ Martin, "Clean Code: A Handbook of Agile Software Craftsmanship").
 примерных сроков принятия решения.
 
 ```kotlin
-// TODO: This code waits until project manager gets agreement of the project owner.
-// TODO: This is estimated to be done by June 27, 2019.
+// TODO: Author: Alexander Surinov, date: 01.03.2022, task: ANDR-4001
+//   This code waits until project manager gets agreement of the project owner. 
 // private fun commentedFunction() {
 //     ...
 // }
@@ -2573,48 +2522,28 @@ private fun trackButtonClick() {
 
 ```
 
-Для быстрого перемещения между регионами можно использовать сочетание клавиш 
-"*Go to custom folding*". А для быстрой вставки разметки можно создать шаблон в настройках:
-
-**Preferences** -> **Editor** -> **Live Templates** -> **Android** -> **"+"** 
--> **Live Template**.
-
 ### Инструкции TODO
 
-Запланированный технический долг, отложенная реализация, а также различные подсказки по 
-имплементации для себя и других разработчиков можно оставлять с помощью инструкции 
-`// TODO: Your message here`:
+Запланированный технический долг нужно помечать с помощью инструкции TODO.
 
+Инструкция TODO должна иметь следующий формат:
 ```kotlin
-private fun handleSearchError(throwable: Throwable) {
-    // TODO: Add error message displaying for User.
-    Timber.e(throwable) { "Failed to search for examinations" }
-}
-
-// TODO: Split this onto several functions.
-// TODO: It's over-responsible.
-private fun doTooMuchForOneFunction() {
-    // Function body.
-}
-
-private fun doSomethingPotentiallyMalfunctioniing() {
-    // TODO: Investigate and fix crash here.
-    
-    // Bugged function impl.
-}
+// TODO Автор: {name}, дата: {date}, задача: {task}
+//  {text} 
 ```
-
-После слова `TODO` ставится двоеточие `:`, за которым следует пробел и непосредственно текст 
-комментария, форматируемый по обычным [правилам для комментариев](#Комментарии). Если сообщение 
-растягивается на несколько строк, каждая из них должна начинаться с нового слова `TODO`.
+Где:
+* `{name}` - кто обнаружил проблему;
+* `{date}` - дата заведения TODO;
+* `{task}` - номер задачи, в рамках которой будет устранена проблема;
+* `{text}` - описание TODO.
 
 Два важных условия:
 
-* Инструкции не должны быть очевидными или содержать таски, которые и так будут выполнены.
+* Инструкции не должны быть очевидными.
 
 * `TODO` не должен находиться в проекте вечно. В идеале такой комментарий должен быть максимально 
 краткосрочным. Если `TODO` указывает на запланированный технический долг, требующий согласования
-с менеджером, то по нему должен появиться срок закрытия и таск.
+с менеджером, то по нему должен появиться срок закрытия и задача.
 
 Быстро перемещаться по оставленным `TODO` в Android Studio можно с помощью специального окна,
 которое открывается вот так:
