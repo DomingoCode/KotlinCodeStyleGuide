@@ -2458,15 +2458,7 @@ private fun getApplicationSuccessRate(age: Int): Float {
 времени, и до той поры его присутствие в закомментированном виде не вызывает неудобств 
 у участников проекта. Закомментированные участки обязательно должны сопровождаться инструкциями 
 `// TODO` с пояснением причины комментирования, условий раскомментирования и 
-примерных сроков принятия решения.
-
-```kotlin
-// TODO: Author: Alexander Surinov, date: 01.03.2022, task: ANDR-4001
-//   This code waits until project manager gets agreement of the project owner. 
-// private fun commentedFunction() {
-//     ...
-// }
-```
+примерных сроков принятия решения. Смотри [правила по оформлению TODO](#Инструкции-TODO).
 
 ### Комментарии-разделители
 
