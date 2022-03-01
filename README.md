@@ -30,6 +30,7 @@
      - [Именованные аргументы](#Именованные-аргументы)
      - [Функциональные типы](#Функциональные-типы)
      - [Тело функции](#Тело-функции)
+     - [Пояснительные переменные в функциях](#Пояснительные-переменные-в-функциях )
      - [Размер функции](#Размер-функции)
      - [Функции-выражения](#Функции-выражения)
    - [Ссылки на функции](#Ссылки-на-функции)
@@ -965,6 +966,54 @@ private fun navigateToLoginScreen() {
     )
 }
 ```
+
+### Пояснительные переменные в функциях 
+
+Использование пояснительных переменных с содержательными именами сильно способствуют удобочитаемости функции. 
+
+```kotlin
+// Bad, large nesting.
+
+ override fun pushRead(pushId: String) {
+     if (pushId.isBlank()) return
+
+     compositeDisposable.add(
+             repository
+                     .setPushReaded(
+                             pushId,
+                             SimpleDateFormat(
+                                     UtcZonedTimeUtils.UTC_DATE_FORMAT,
+                                     Locale.getDefault()).format(TrueTimeManager.safeNow()))
+                     .compose(RxUtils.applyIoSchedulersToCompletable())
+                     .subscribe({
+                     }, Timber.tag(TAG)::e)
+     )
+ }
+```
+
+```kotlin
+// Good.
+
+```kotlin
+override fun pushRead(pushId: String) {
+    if (pushId.isBlank()) return
+    
+    val defaultLocale = Locale.getDefault()   
+    val dateFormat = SimpleDateFormat(UtcZonedTimeUtils.UTC_DATE_FORMAT, defaultLocale)
+    val currentDate = TrueTimeManager.safeNow()
+    val formattedCurrentDate = dateFormat.format(currentDate)
+
+    val disposable = repository
+        .setPushReaded(pushId, formattedCurrentDate)
+        .compose(RxUtils.applyIoSchedulersToCompletable())
+        .doOnError(Timber.tag(TAG)::e)
+        .onErrorComplete()
+        .subscribe()
+    
+    compositeDisposable.add(disposable)
+}
+```
+
 
 ### Размер функции
 
