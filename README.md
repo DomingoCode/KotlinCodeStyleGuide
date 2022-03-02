@@ -2438,6 +2438,11 @@ fun attemptToLogoutUser() {
 }
 ```
 
+## Использование scope функций
+
+TODO: обсудить с командой и дополнить раздел.
+https://kotlinlang.org/docs/scope-functions.html#with
+
 # Документирование
 
 ## KDoc
