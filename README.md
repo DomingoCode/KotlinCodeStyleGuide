@@ -963,9 +963,9 @@ private fun navigateToLoginScreen() {
 Использование пояснительных переменных с содержательными именами сильно способствуют удобочитаемости функции.
 
 ```kotlin
-//  Not quite good, large nesting.
+//  Not quite good, large nesting, many indentations.
 
- override fun pushRead(pushId: String) {
+ override fun markPushAsRead(pushId: String) {
      if (pushId.isBlank()) return
 
      compositeDisposable.add(
@@ -987,7 +987,7 @@ private fun navigateToLoginScreen() {
 ```kotlin
 // Better.
 
-override fun pushRead(pushId: String) {
+override fun markPushAsRead(pushId: String) {
     if (pushId.isBlank()) return
    
     val dateFormat = SimpleDateFormat(UtcZonedTimeUtils.UTC_DATE_FORMAT, Locale.getDefault())
