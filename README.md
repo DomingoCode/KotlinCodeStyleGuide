@@ -2446,40 +2446,40 @@ fun attemptToLogoutUser() {
 
 ```kotlin
 /**
- * KDoc is formatted like this.
+ * KDoc комментарий.
  */
 ```
+
+Документ пишется по-русски, с соблюдением правил орфографии и грамматики языка.
 
 Все комментарии, располагающиеся над свойствами, функциями и типами, форматируются в виде KDoc:
 
 ```kotlin
 // Bad.
 
-// Type members shouldn't be documented with regular comments like this one. 
-private fun getApplicationSuccessRate(age: Int): Float {
-    // Function body.
-}
+// Публичная функция не должна документироваться с помощью обычного комментария, такого как этот. 
+fun getNotifications(request: AtiNotificationsRequest): Single<List<AtiNotification>>
 ```
 
 ```kotlin
 // Good.
 
 /**
- * KDoc is much more useful, it allows to put references to other types and functions,
- * such as [UserInteractor] or [getUserInfo], as well as descriptions of params and returns:
+ * KDoc гораздо полезнее. Он позволяет добавлять ссылки на классы и функции, давать описание 
+ * параметрам, свойствам и прочее.
  *
- * @param age an applicant's age, based on which the rate is calculated.
- * @return float number between 0 and 1 denoting the possibility of application acceptance.
+ * @param request объект запроса списка АТИ уведомлений.
  */
-private fun getApplicationSuccessRate(age: Int): Float {
-    // Function body.
-}
+fun getNotifications(request: AtiNotificationsRequest): Single<List<AtiNotification>>
 ```
 
 >**Примечание**: чтобы ссылки на публичные типы отобразились в KDoc, необходимо добавить в файл
 директивы **import** с соответствующими типами.
 
 ## Комментарии
+
+Так же как и KDoc, обычные комментарии пишутся на русском языке, с соблюдением правил 
+орфографии и грамматики.
 
 ### Форматирование комментариев
 
@@ -2488,29 +2488,29 @@ private fun getApplicationSuccessRate(age: Int): Float {
 Для комментариев длиной до 4 строк можно использовать двойной слэш `//`:
 
 ```kotlin
-// If this condition is true, then User hasn't granted permission 
-// and has set "never ask again" checkbox. We will show rationale 
-// explanation and then navigate User to the app settings.
+// Данный exclude был добавлен, чтобы решить проблему дублирующихся файлов META-INF.
+// На работоспособность приложение это повлиять не должно.
+// https://stackoverflow.com/questions/44509608/duplicate-files-copied-in-apk-meta-inf-library-release-kotlin-module
 ```
 
 При желании, для комментариев длиннее 2 строк можно использовать звёздочки `/* */`. В этом
 случае первая и последняя строка комментария остаются пустыми:
 
 ```kotlin
-/*
- * Some events could be lost due uninitialized map, but we don't care, 
- * because current location updates frequently. If we have a location 
- * permission, of course. 
+/**
+ * Данный exclude был добавлен, чтобы решить проблему дублирующихся файлов META-INF.
+ * На работоспособность приложение это повлиять не должно.
+ * https://stackoverflow.com/questions/44509608/duplicate-files-copied-in-apk-meta-inf-library-release-kotlin-module
  */
 ```
 
 Для однострочных комментариев звёздочки **не используются**:
 
 ```kotlin
-/* Short comment like this doesn't look right. */   // Bad.
+/* Неправильно оформленный однострочный комментарий. */   // Bad.
 
 /*
- * Too much space for the one-line comment.         // Bad.
+ * Неправильно оформленный однострочный комментарий.      // Bad.
  */
 ```
 
@@ -2546,7 +2546,7 @@ private val nonSpecificProperty = 1.0f
 private val specificProperty = calculateSpecificProperty()
 
 private fun performSpecificAction() {
-    // Function body.
+    // ...
 }
 
 // endregion
@@ -2561,11 +2561,11 @@ private fun performSpecificAction() {
 
 override fun onStart() {
     trackScreenStart()
-    // Function body.
+    // ...
 }
 
 override fun onEnd() {
-    // Function body.
+    // ...
 }
 
 // endregion
@@ -2574,11 +2574,11 @@ override fun onEnd() {
 // region Analytics
 
 private fun trackScreenStart() {
-    // Function body.
+    // ...
 }
 
 private fun trackButtonClick() {
-    // Function body.
+    // ...
 }
 
 // endregion
@@ -2587,7 +2587,7 @@ private fun trackButtonClick() {
 
 ### Инструкции TODO
 
-Запланированный технический долг нужно помечать с помощью инструкции TODO.
+Запланированный технический долг и критические проблемы в коде нужно помечать с помощью инструкции TODO.
 
 Инструкция TODO должна иметь следующий формат:
 ```kotlin
@@ -2601,7 +2601,7 @@ private fun trackButtonClick() {
 * `{text}` - описание TODO.
 
 В многострочных TODO комментариях ко всем строчкам после первой добавляется отступ. 
-Не нужно добавлять TODO к каждой строке:
+**Не нужно** добавлять TODO к каждой строке:
 ```kotlin
 // TODO Автор: Суринов, дата: 02.03.2022, задача: ADNR-1000
 //  Вынести этот код в общий модуль.
