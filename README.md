@@ -241,7 +241,7 @@ val GUEST_TABS = listOf(
 >```kotlin
 >val ABC = listOf("A", "B", "C")
 >``` 
->Здесь `abc` – _Read-Only_-список неизменяемого типа String. Поскольку внутреннее состояние объекта
+>Здесь `ABC` – _Read-Only_-список неизменяемого типа String. Поскольку внутреннее состояние объекта
 String нельзя изменить, такое свойство является глубоко неизменяемым. А вот обратный пример:
 >```kotlin
 >val midnightCalendar = Calendar.getInstance().setHours(0).setMinutes(0).setSeconds(0)
